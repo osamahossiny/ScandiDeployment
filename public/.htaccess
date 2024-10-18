@@ -1,19 +1,22 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
+# Enable URL rewriting
+RewriteEngine On
 
-    # Serve static files from the frontend build folder (React app)
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ ../frontend/build/$1 [L]
+# Serve existing files directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
 
-    # If the requested file doesn't exist, serve the React app's index.html
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ ../frontend/build/index.html [L]
+# Handle GraphQL API requests (e.g., requests to /graphql)
+RewriteCond %{REQUEST_URI} ^/graphql$
+RewriteRule ^(.*)$ index.php [QSA,L]
 
-    # Route GraphQL API requests to graphql.php in the root directory
-    RewriteCond %{REQUEST_URI} ^/graphql$
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.php [QSA,L]
-</IfModule>
+# Route API calls (you can modify the path if necessary)
+RewriteCond %{REQUEST_URI} ^/api/(.*)$
+RewriteRule ^api/(.*)$ index.php [QSA,L]
+
+# Handle React frontend (for any non-file requests)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ../frontend/build/index.html [L]
+
+# Handle 404 errors by routing back to React app
+ErrorDocument 404 ../frontend/build/index.html
