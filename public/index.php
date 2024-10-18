@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: *');
 header('Access-Control-Allow-Origin: *');
 
 require_once __DIR__ . '/../vendor/autoload.php';
-use Dotenv\Dotenv;
+// use Dotenv\Dotenv;
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->post('/graphql', [App\Controller\GraphQL::class, 'handle']);
@@ -17,8 +17,8 @@ $routeInfo = $dispatcher->dispatch(
     $_SERVER['REQUEST_URI']
 );
 
-$dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
+// $dotenv = Dotenv::createImmutable(dirname(__DIR__));
+// $dotenv->load();
 
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:

@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS task;
-CREATE DATABASE task;
+DROP DATABASE IF EXISTS uyk14t04diqq7snw;
+CREATE DATABASE uyk14t04diqq7snw;
 
 
-USE task;
+USE uyk14t04diqq7snw;
 
 CREATE TABLE category (
     name VARCHAR(255),
