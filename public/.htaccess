@@ -13,10 +13,16 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 RewriteCond %{REQUEST_URI} ^/api/(.*)$
 RewriteRule ^api/(.*)$ index.php [QSA,L]
 
-# Handle React frontend (for any non-file requests)
+# Serve static files from the frontend build folder (React app)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ../frontend/build/$1 [L]
+
+# If the requested file doesn't exist, serve the React app's index.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ ../frontend/build/index.html [L]
+
 
 # Handle 404 errors by routing back to React app
 ErrorDocument 404 ../frontend/build/index.html
