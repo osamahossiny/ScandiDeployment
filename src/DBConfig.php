@@ -4,13 +4,14 @@ namespace App;
 
 class DBConfig {
     public static function getDBConfig () {
+        $jawsdb_url = parse_url(getenv("JAWSDB_URL"));
         $dbConfig =
         [
-            'host' => 'dz8959rne9lumkkw.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+            'host' => $jawsdb_url['host'],
             'port' => 3306,
-            'dbname' => "uyk14t04diqq7snw",
-            'user' => "ek9wa54mzb5jpz2i",
-            'password' => "mii0ixzmw9poytf5",
+            'dbname' => ltrim($jawsdb_url['path'],'/'),
+            'user' => $jawsdb_url['user'],
+            'password' => $jawsdb_url['pass'],
             'charset' => "utf8mb4",
         ];
         return $dbConfig;
